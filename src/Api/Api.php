@@ -204,6 +204,11 @@ class Api implements ApiInterface
             $params['tmpFileName'] .= '[page=' . $loadOptions['page'] . ']';
         }
 
+        // TODO: Support for animated GIF?
+        /*if ($params['loader'] === 'VipsForeignLoadGifFile') {
+            $loadOptions['n'] = -1;
+        }*/
+
         return $loadOptions;
     }
 }

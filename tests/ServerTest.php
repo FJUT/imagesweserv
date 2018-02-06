@@ -202,7 +202,36 @@ class ServerTest extends ImagesweservTestCase
 
     /**
      * @runInSeparateProcess
-     * @requires extension gd
+     */
+    public function testOutputImageAsPng()
+    {
+        $testImage = $this->inputJpg;
+        $params = [
+            'w' => '320',
+            'h' => '240',
+            't' => 'square',
+            'output' => 'png'
+        ];
+
+        $uri = basename($testImage);
+
+        $this->client->shouldReceive('get')->with($uri)->andReturn($testImage);
+        $this->throttler->shouldReceive('isExceeded')->with('127.0.0.1');
+
+        ob_start();
+        $this->server->outputImage($uri, $params);
+        $content = ob_get_clean();
+
+        $image = Image::newFromBuffer($content);
+
+        $this->assertEquals('pngload_buffer', $image->get('vips-loader'));
+        $this->assertEquals(320, $image->width);
+        $this->assertEquals(240, $image->height);
+        $this->assertFalse($image->hasAlpha());
+    }
+
+    /**
+     * @runInSeparateProcess
      */
     public function testOutputImageAsGif()
     {
@@ -229,38 +258,6 @@ class ServerTest extends ImagesweservTestCase
         $this->assertEquals(320, $image->width);
         $this->assertEquals(240, $image->height);
         $this->assertTrue($image->hasAlpha());
-    }
-
-    /**
-     * @runInSeparateProcess
-     * @requires extension gd
-     */
-    public function testOutputImageAsInterlacedGif()
-    {
-        $testImage = $this->inputJpg;
-        $params = [
-            'w' => '320',
-            'h' => '240',
-            't' => 'square',
-            'il' => 'true',
-            'output' => 'gif'
-        ];
-
-        $uri = basename($testImage);
-
-        $this->client->shouldReceive('get')->with($uri)->andReturn($testImage);
-        $this->throttler->shouldReceive('isExceeded')->with('127.0.0.1');
-
-        ob_start();
-        $this->server->outputImage($uri, $params);
-        $content = ob_get_clean();
-
-        $image = Image::newFromBuffer($content);
-
-        $this->assertEquals('gifload_buffer', $image->get('vips-loader'));
-        $this->assertEquals(320, $image->width);
-        $this->assertEquals(240, $image->height);
-        $this->assertFalse($image->hasAlpha());
     }
 
     /**

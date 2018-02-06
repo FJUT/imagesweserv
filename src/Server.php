@@ -224,37 +224,22 @@ class Server
         // Does this image have an alpha channel?
         $hasAlpha = $image->hasAlpha();
 
-        $needsGif = (isset($params['output']) && $params['output'] === 'gif')
-            || (!isset($params['output']) && $extension === 'gif');
-
         // Check if output is set and allowed
         if (isset($params['output']) && $this->isExtensionAllowed($params['output'])) {
             $extension = $params['output'];
-        } elseif (($hasAlpha && ($extension !== 'png' && $extension !== 'webp'))
-            || ($needsGif && $extension !== 'jpg') || !$this->isExtensionAllowed($extension)) {
+        } elseif (($hasAlpha && ($extension !== 'png' && $extension !== 'webp' && $extension !== 'gif'))
+            || !$this->isExtensionAllowed($extension)) {
             // We force the extension to PNG if:
             //  - The image has alpha and doesn't have the right extension to output alpha.
             //    (useful for shape masking and letterboxing)
             //  - The input extension is not allowed for output.
-            //  - GIF output is needed but extension isn't compatible with `imagecreatefromstring`
             $extension = 'png';
         }
 
-        $toBufferOptions = $this->getBufferOptions($params, $extension);
-
         // Write an image to a formatted string
-        $buffer = $image->writeToBuffer(".$extension", $toBufferOptions);
-
-        // Check if GD library is installed on the server
-        $gdAvailable = \extension_loaded('gd') && \function_exists('gd_info');
-
-        // If the GD library is installed and a gif output is needed.
-        if ($gdAvailable && $needsGif) {
-            $buffer = $this->bufferToGif($buffer, $toBufferOptions['interlace'], $hasAlpha);
-
-            // Extension is now gif
-            $extension = 'gif';
-        }
+        $buffer = $extension === 'gif' ?
+            $image->magicksave_buffer(['format' => $extension]) :
+            $image->writeToBuffer(".$extension", $this->getBufferOptions($params, $extension));
 
         return [$buffer, $extension];
     }
@@ -375,17 +360,17 @@ class Server
     /**
      * Is the extension allowed to pass on to the selected save operation?
      *
-     * Note: It's currently not possible to save gif through libvips
-     * See: https://github.com/jcupitt/libvips/issues/235
-     * and: https://github.com/jcupitt/libvips/issues/620
-     *
      * @param string $extension
      *
      * @return bool
      */
     public function isExtensionAllowed(string $extension): bool
     {
-        return $extension === 'jpg' || $extension === 'png' || $extension === 'webp' || $extension === 'tiff';
+        return $extension === 'jpg' ||
+            $extension === 'tiff' ||
+            $extension === 'gif' ||
+            $extension === 'png' ||
+            $extension === 'webp';
     }
 
     /**
@@ -497,61 +482,5 @@ class Server
         }
 
         return $quality;
-    }
-
-    /**
-     * It's currently not possible to save gif through libvips.
-     *
-     * We don't deprecate GIF output to make sure to not break
-     * anyone's apps.
-     * If gif output is needed then we are using GD
-     * to convert our libvips image to a gif.
-     *
-     * (Feels a little hackish but there is not an alternative at
-     * this moment..)
-     *
-     * @param string $buffer Old buffer
-     * @param bool $interlace Is interlacing needed?
-     * @param bool $hasAlpha Does the image has alpha?
-     *
-     * @return string New GIF buffer
-     */
-    public function bufferToGif(string $buffer, bool $interlace, bool $hasAlpha): string
-    {
-        // Create GD image from string (suppress any warnings)
-        // Note: Only JPEG, PNG, GIF, BMP, WBMP, and GD2 images are supported.
-        $gdImage = @imagecreatefromstring($buffer);
-
-        // If image is valid
-        if ($gdImage !== false) {
-            // Enable interlacing if needed
-            if ($interlace) {
-                imageinterlace($gdImage, true);
-            }
-
-            // Preserve transparency
-            if ($hasAlpha) {
-                imagecolortransparent($gdImage, imagecolorallocatealpha($gdImage, 0, 0, 0, 127));
-                imagealphablending($gdImage, false);
-                imagesavealpha($gdImage, true);
-            }
-
-            // Turn output buffering on
-            ob_start();
-
-            // Output the image to the buffer
-            imagegif($gdImage);
-
-            // Read from buffer
-            $buffer = ob_get_contents();
-
-            // Delete buffer
-            ob_end_clean();
-
-            // Free up memory
-            imagedestroy($gdImage);
-        }
-
-        return $buffer;
     }
 }
