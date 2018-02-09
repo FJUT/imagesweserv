@@ -10,6 +10,7 @@ use AndriesLouw\imagesweserv\Manipulators\Crop;
 use AndriesLouw\imagesweserv\Manipulators\Filter;
 use AndriesLouw\imagesweserv\Manipulators\Gamma;
 use AndriesLouw\imagesweserv\Manipulators\Letterbox;
+use AndriesLouw\imagesweserv\Manipulators\ManipulatorInterface;
 use AndriesLouw\imagesweserv\Manipulators\Orientation;
 use AndriesLouw\imagesweserv\Manipulators\Shape;
 use AndriesLouw\imagesweserv\Manipulators\Sharpen;
@@ -17,6 +18,8 @@ use AndriesLouw\imagesweserv\Manipulators\Thumbnail;
 use AndriesLouw\imagesweserv\Manipulators\Trim;
 use Jcupitt\Vips\Image;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\MockInterface;
+use PHPUnit\Framework\ExpectationFailedException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,9 +37,14 @@ class ImagesweservTestCase extends TestCase
      *
      * @param Image|string $expectedImage
      * @param Image|string $actualImage
-     * @param int          $threshold
+     * @param int $threshold
+     *
+     * @throws \Jcupitt\Vips\Exception
+     * @throws ExpectationFailedException
+     *
+     * @return void
      */
-    public function assertSimilarImage($expectedImage, $actualImage, int $threshold = 5)
+    public function assertSimilarImage($expectedImage, $actualImage, int $threshold = 5): void
     {
         $constraint = new SimilarImageConstraint($expectedImage, $threshold);
         self::assertThat($actualImage, $constraint);
@@ -47,15 +55,23 @@ class ImagesweservTestCase extends TestCase
      *
      * @param Image|string $expectedImage
      * @param Image|string $actualImage
-     * @param float        $threshold
+     * @param float $threshold
+     *
+     * @throws \Jcupitt\Vips\Exception
+     * @throws ExpectationFailedException
+     *
+     * @return void
      */
-    public function assertMaxColorDistance($expectedImage, $actualImage, float $threshold = 1.0)
+    public function assertMaxColorDistance($expectedImage, $actualImage, float $threshold = 1.0): void
     {
         $constraint = new MaxColorDistanceConstraint($expectedImage, $threshold);
         self::assertThat($actualImage, $constraint);
     }
 
-    public function getManipulators()
+    /**
+     * @return ManipulatorInterface[] Collection of manipulators.
+     */
+    public function getManipulators(): array
     {
         return [
             new Trim(),
@@ -79,7 +95,14 @@ class ImagesweservTestCase extends TestCase
         \Mockery::close();
     }
 
-    protected function getMockery($class)
+    /**
+     * Shortcut to \Mockery::mock().
+     *
+     * @param mixed $class Class to mock.
+     *
+     * @return \Mockery\MockInterface
+     */
+    protected function getMockery($class): MockInterface
     {
         return \Mockery::mock($class);
     }

@@ -55,7 +55,7 @@ class Server
      * @param ApiInterface $api Image manipulation API.
      * @param ThrottlerInterface|null $throttler Throttler
      */
-    public function __construct(ApiInterface $api, $throttler)
+    public function __construct(ApiInterface $api, ?ThrottlerInterface $throttler)
     {
         $this->setApi($api);
         $this->setThrottler($throttler);
@@ -78,7 +78,7 @@ class Server
      *
      * @return void
      */
-    public function setApi(ApiInterface $api)
+    public function setApi(ApiInterface $api): void
     {
         $this->api = $api;
     }
@@ -88,7 +88,7 @@ class Server
      *
      * @return ThrottlerInterface|null Throttler class
      */
-    public function getThrottler()
+    public function getThrottler(): ?ThrottlerInterface
     {
         return $this->throttler;
     }
@@ -100,7 +100,7 @@ class Server
      *
      * @return void
      */
-    public function setThrottler($throttler)
+    public function setThrottler(?ThrottlerInterface $throttler): void
     {
         $this->throttler = $throttler;
     }
@@ -108,7 +108,7 @@ class Server
     /**
      * Get default image manipulations.
      *
-     * @return array Default image manipulations.
+     * @return mixed[] Default image manipulations.
      */
     public function getDefaults(): array
     {
@@ -118,11 +118,11 @@ class Server
     /**
      * Set default image manipulations.
      *
-     * @param array $defaults Default image manipulations.
+     * @param mixed[] $defaults Default image manipulations.
      *
      * @return void
      */
-    public function setDefaults(array $defaults)
+    public function setDefaults(array $defaults): void
     {
         $this->defaults = $defaults;
     }
@@ -130,7 +130,7 @@ class Server
     /**
      * Get preset image manipulations.
      *
-     * @return array Preset image manipulations.
+     * @return mixed[] Preset image manipulations.
      */
     public function getPresets(): array
     {
@@ -140,11 +140,11 @@ class Server
     /**
      * Set preset image manipulations.
      *
-     * @param array $presets Preset image manipulations.
+     * @param mixed[] $presets Preset image manipulations.
      *
      * @return void
      */
-    public function setPresets(array $presets)
+    public function setPresets(array $presets): void
     {
         $this->presets = $presets;
     }
@@ -152,9 +152,9 @@ class Server
     /**
      * Get all image manipulations params, including defaults and presets.
      *
-     * @param array $params Image manipulation params.
+     * @param mixed[] $params Image manipulation params.
      *
-     * @return array All image manipulation params.
+     * @return mixed[] All image manipulation params.
      */
     public function getAllParams(array $params): array
     {
@@ -178,7 +178,7 @@ class Server
      * Generate manipulated image.
      *
      * @param string $url Image URL
-     * @param array $params Image manipulation params.
+     * @param mixed[] $params Image manipulation params.
      *
      * @throws ImageNotReadableException if the provided image is not readable.
      * @throws ImageTooLargeException if the provided image is too large for
@@ -204,14 +204,11 @@ class Server
      * Write an image to a formatted string.
      *
      * @param Image $image The image
-     * @param array $params Image manipulation params.
+     * @param mixed[] $params Image manipulation params.
      *
      * @throws VipsException for errors that occur during the processing of a Image.
      *
-     * @return array [
-     * @type   string The formatted image,
-     * @type   string Image extension
-     * ]
+     * @return string[] [The formatted image, Image extension]
      */
     public function makeBuffer(Image $image, array $params): array
     {
@@ -248,7 +245,7 @@ class Server
      * Generate and output image.
      *
      * @param string $uri Image URL
-     * @param array $params Image manipulation params.
+     * @param mixed[] $params Image manipulation params.
      *
      * @throws RateExceededException if a user rate limit is exceeded
      * @throws ImageNotReadableException if the provided image is not readable.
@@ -266,7 +263,7 @@ class Server
      *
      * @return void
      */
-    public function outputImage(string $uri, array $params)
+    public function outputImage(string $uri, array $params): void
     {
         // Throttler can be null
         if ($this->throttler !== null) {
@@ -289,7 +286,16 @@ class Server
             // Set our custom debug logger
             Config::setLogger(new class extends DebugLogger
             {
-                public function log($level, $message, array $context = array())
+                /**
+                 * Logs with an arbitrary level.
+                 *
+                 * @param mixed $level
+                 * @param string $message
+                 * @param mixed[] $context
+                 *
+                 * @return void
+                 */
+                public function log($level, $message, array $context = []): void
                 {
                     // Base64 encode buffers
                     /*if (($message === 'newFromBuffer' || $message === 'findLoadBuffer') &&
@@ -323,7 +329,7 @@ class Server
         }
 
         $image = $this->makeImage($uri, $params);
-        list($buffer, $extension) = $this->makeBuffer($image, $params);
+        [$buffer, $extension] = $this->makeBuffer($image, $params);
 
         $mimeType = $this->extensionToMimeType($extension);
 
@@ -398,10 +404,10 @@ class Server
      * Get the options for a specified extension to pass on to
      * the selected save operation.
      *
-     * @param array $params Parameters array
+     * @param mixed[] $params Parameters array
      * @param string $extension Image extension
      *
-     * @return array Any options to pass on to the selected
+     * @return mixed[] Any options to pass on to the selected
      *     save operation.
      */
     public function getBufferOptions(array $params, string $extension): array
@@ -452,9 +458,9 @@ class Server
     /**
      * Resolve the quality for the provided extension.
      *
-     * For a png it returns the zlib compression level
+     * For a PNG image it returns the zlib compression level.
      *
-     * @param array $params Parameters array
+     * @param mixed[] $params Parameters array
      * @param string $extension Image extension
      *
      * @return int The resolved quality.

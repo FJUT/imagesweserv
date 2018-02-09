@@ -33,12 +33,12 @@ class CropTest extends ImagesweservTestCase
         $this->manipulator = new Crop();
     }
 
-    public function testCreateInstance()
+    public function testCreateInstance(): void
     {
         $this->assertInstanceOf(Crop::class, $this->manipulator);
     }
 
-    public function testCropPosition()
+    public function testCropPosition(): void
     {
         $cropPositions = [
             [
@@ -172,7 +172,7 @@ class CropTest extends ImagesweservTestCase
         }
     }
 
-    public function testEntropyCropJpeg()
+    public function testEntropyCropJpeg(): void
     {
         $testImage = $this->inputJpg;
         $expectedImage = $this->expectedDir . '/crop-strategy-entropy.jpg';
@@ -197,7 +197,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testEntropyCropPng()
+    public function testEntropyCropPng(): void
     {
         $testImage = $this->inputPngWithTransparency;
         $expectedImage = $this->expectedDir . '/crop-strategy.png';
@@ -222,7 +222,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testAttentionCropJpg()
+    public function testAttentionCropJpg(): void
     {
         $testImage = $this->inputJpg;
         $expectedImage = $this->expectedDir . '/crop-strategy-attention.jpg';
@@ -247,7 +247,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testAttentionCropPng()
+    public function testAttentionCropPng(): void
     {
         $testImage = $this->inputPngWithTransparency;
         $expectedImage = $this->expectedDir . '/crop-strategy.png';
@@ -272,7 +272,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testPartialImageExtractJpeg()
+    public function testPartialImageExtractJpeg(): void
     {
         $testImage = $this->inputJpg;
         $expectedImage = $this->expectedDir . '/extract.jpg';
@@ -292,7 +292,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image, 12);
     }
 
-    public function testPartialImageExtractPng()
+    public function testPartialImageExtractPng(): void
     {
         $testImage = $this->inputPng;
         $expectedImage = $this->expectedDir . '/extract.png';
@@ -312,7 +312,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testPartialImageExtractWebP()
+    public function testPartialImageExtractWebP(): void
     {
         $testImage = $this->inputWebP;
         $expectedImage = $this->expectedDir . '/extract.webp';
@@ -332,7 +332,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testPartialImageExtractTiff()
+    public function testPartialImageExtractTiff(): void
     {
         $testImage = $this->inputTiff;
         $expectedImage = $this->expectedDir . '/extract.tiff';
@@ -352,7 +352,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testImageResizeAndExtractSvg72DPI()
+    public function testImageResizeAndExtractSvg72DPI(): void
     {
         $testImage = $this->inputSvg;
         $expectedImage = $this->expectedDir . '/svg72.png';
@@ -374,7 +374,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image, 7);
     }
 
-    public function testImageResizeCropAndExtract()
+    public function testImageResizeCropAndExtract(): void
     {
         $testImage = $this->inputJpg;
         $expectedImage = $this->expectedDir . '/resize-crop-extract.jpg';
@@ -398,7 +398,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testRotateAndExtract()
+    public function testRotateAndExtract(): void
     {
         $testImage = $this->inputPngWithGreyAlpha;
         $expectedImage = $this->expectedDir . '/rotate-extract.jpg';
@@ -419,7 +419,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSimilarImage($expectedImage, $image);
     }
 
-    public function testLimitToImageBoundaries()
+    public function testLimitToImageBoundaries(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -437,7 +437,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertEquals(240, $image->height);
     }
 
-    public function testNegativeWidth()
+    public function testNegativeWidth(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -458,7 +458,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertEquals(240, $image->height);
     }
 
-    public function testNegativeHeight()
+    public function testNegativeHeight(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -479,7 +479,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertEquals(240, $image->height);
     }
 
-    public function testBadExtractArea()
+    public function testBadExtractArea(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -500,7 +500,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertEquals(240, $image->height);
     }
 
-    public function testGetCrop()
+    public function testGetCrop(): void
     {
         $this->assertSame([0, 0], $this->manipulator->setParams(['a' => 'top-left'])->getCrop());
         $this->assertSame([0, 100], $this->manipulator->setParams(['a' => 'bottom-left'])->getCrop());
@@ -519,7 +519,7 @@ class CropTest extends ImagesweservTestCase
         $this->assertSame([50, 50], $this->manipulator->setParams(['a' => 'invalid'])->getCrop());
     }
 
-    public function testResolveCropCoordinates()
+    public function testResolveCropCoordinates(): void
     {
         $this->assertSame(
             [100, 100, 0, 0],

@@ -14,7 +14,7 @@ class ImageTooLargeExceptionTest extends ImagesweservTestCase
      *
      * @expectedException \AndriesLouw\imagesweserv\Exception\ImageTooLargeException
      */
-    public function testThrowException()
+    public function testThrowException(): void
     {
         throw new ImageTooLargeException();
     }
@@ -23,7 +23,7 @@ class ImageTooLargeExceptionTest extends ImagesweservTestCase
      * @expectedException        \AndriesLouw\imagesweserv\Exception\ImageTooLargeException
      * @expectedExceptionMessage Image is too large for processing. Width x Height should be less than 70 megapixels.
      */
-    public function testImageNotReadableException()
+    public function testImageNotReadableException(): void
     {
         $thumbnail = new Thumbnail(71000000);
 

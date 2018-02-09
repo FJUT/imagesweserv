@@ -7,6 +7,7 @@ use Jcupitt\Vips\Image;
 use Jcupitt\Vips\Interpretation;
 use PHPUnit\Framework\Constraint\Constraint;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 /**
  * Verify similarity of expected vs actual images
@@ -46,7 +47,7 @@ class SimilarImageConstraint extends Constraint
     /**
      * SimilarImageConstraint constructor.
      *
-     * @param $image
+     * @param string|Image $image
      * @param int $threshold
      *
      * @throws \Jcupitt\Vips\Exception
@@ -110,7 +111,7 @@ class SimilarImageConstraint extends Constraint
      */
     public function additionalFailureDescription($other): string
     {
-        $differ = new Differ("--- Expected hash\n+++ Actual hash\n");
+        $differ = new Differ(new UnifiedDiffOutputBuilder("--- Expected hash\n+++ Actual hash\n"));
         return $differ->diff($this->expectedHash, $this->actualHash);
     }
 

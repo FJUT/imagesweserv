@@ -40,17 +40,17 @@ class ServerTest extends ImagesweservTestCase
         $this->server = new Server($this->api, $this->throttler);
     }
 
-    public function testCreateInstance()
+    public function testCreateInstance(): void
     {
         $this->assertInstanceOf(Server::class, $this->server);
     }
 
-    public function testGetApi()
+    public function testGetApi(): void
     {
         $this->assertInstanceOf(ApiInterface::class, $this->server->getApi());
     }
 
-    public function testSetDefaults()
+    public function testSetDefaults(): void
     {
         $defaults = [
             'output' => 'png'
@@ -61,7 +61,7 @@ class ServerTest extends ImagesweservTestCase
         $this->assertSame($defaults, $this->server->getDefaults());
     }
 
-    public function testSetPresets()
+    public function testSetPresets(): void
     {
         $presets = [
             'small' => [
@@ -76,7 +76,7 @@ class ServerTest extends ImagesweservTestCase
         $this->assertSame($presets, $this->server->getPresets());
     }
 
-    public function testGetAllParams()
+    public function testGetAllParams(): void
     {
         $this->server->setDefaults([
             'output' => 'png'
@@ -107,7 +107,7 @@ class ServerTest extends ImagesweservTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testOutputImage()
+    public function testOutputImage(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -135,7 +135,7 @@ class ServerTest extends ImagesweservTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testOutputImageAsBase64()
+    public function testOutputImageAsBase64(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -157,7 +157,7 @@ class ServerTest extends ImagesweservTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testOutputDebugInfo()
+    public function testOutputDebugInfo(): void
     {
         $testImage = $this->inputJpgWithCmykNoProfile;
         $params = [
@@ -180,7 +180,7 @@ class ServerTest extends ImagesweservTestCase
      * @runInSeparateProcess
      * @requires extension xdebug
      */
-    public function testContentDispositionAttachmentHeader()
+    public function testContentDispositionAttachmentHeader(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -203,7 +203,7 @@ class ServerTest extends ImagesweservTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testOutputImageAsPng()
+    public function testOutputImageAsPng(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -233,7 +233,7 @@ class ServerTest extends ImagesweservTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testOutputImageAsGif()
+    public function testOutputImageAsGif(): void
     {
         $testImage = $this->inputPngWithGreyAlpha;
         $params = [
@@ -263,7 +263,7 @@ class ServerTest extends ImagesweservTestCase
     /**
      * @runInSeparateProcess
      */
-    public function testOutputImageForcePng()
+    public function testOutputImageForcePng(): void
     {
         $testImage = $this->inputJpg;
         $params = [
@@ -290,7 +290,7 @@ class ServerTest extends ImagesweservTestCase
         $this->assertTrue($image->hasAlpha());
     }
 
-    public function testGetBufferOptions()
+    public function testGetBufferOptions(): void
     {
         $this->assertSame([
             'strip' => true,
@@ -315,7 +315,7 @@ class ServerTest extends ImagesweservTestCase
         ], $this->server->getBufferOptions([], 'tiff'));
     }
 
-    public function testGetQuality()
+    public function testGetQuality(): void
     {
         $this->assertSame(1, $this->server->getQuality(['q' => '1'], 'jpg'));
         $this->assertSame(100, $this->server->getQuality(['q' => '100'], 'jpg'));
@@ -325,7 +325,7 @@ class ServerTest extends ImagesweservTestCase
         $this->assertSame(6, $this->server->getQuality(['level' => '10'], 'png'));
     }
 
-    public function testSetThrottler()
+    public function testSetThrottler(): void
     {
         // Test if we can set a `null` throttler
         $this->server->setThrottler(null);

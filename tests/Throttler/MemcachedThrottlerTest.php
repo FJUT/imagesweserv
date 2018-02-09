@@ -50,7 +50,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->throttler = new MemcachedThrottler($this->memcached, $this->policy, $this->config);
     }
 
-    public function testSetGetPrefix()
+    public function testSetGetPrefix(): void
     {
         $this->throttler->setPrefix('');
         $this->assertEquals('', $this->throttler->getPrefix());
@@ -59,7 +59,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->assertEquals($this->config['prefix'] . '_', $this->throttler->getPrefix());
     }
 
-    public function testIsLockout()
+    public function testIsLockout(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -69,7 +69,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->assertTrue($this->throttler->isExceeded($ipAddress));
     }
 
-    public function testIsExceeded()
+    public function testIsExceeded(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -98,7 +98,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
     }
 
 
-    public function testIsNotExceeded()
+    public function testIsNotExceeded(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -109,7 +109,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->assertFalse($this->throttler->isExceeded($ipAddress));
     }
 
-    public function testIncrement()
+    public function testIncrement(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -119,7 +119,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->assertEquals(1, $this->throttler->increment($ipAddress, $this->config['minutes']));
     }
 
-    public function testAttempts()
+    public function testAttempts(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -129,7 +129,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->assertEquals(1, $this->throttler->attempts($ipAddress));
     }
 
-    public function testResetAttempts()
+    public function testResetAttempts(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -139,7 +139,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->assertEquals(true, $this->throttler->resetAttempts($ipAddress));
     }
 
-    public function testZeroAttemptsAllRetriesLeft()
+    public function testZeroAttemptsAllRetriesLeft(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -152,7 +152,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         );
     }
 
-    public function testRetriesLeft()
+    public function testRetriesLeft(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -165,7 +165,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         );
     }
 
-    public function testClear()
+    public function testClear(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();
@@ -176,7 +176,7 @@ class MemcachedThrottlerTest extends ImagesweservTestCase
         $this->throttler->clear($ipAddress);
     }
 
-    public function testAvailableIn()
+    public function testAvailableIn(): void
     {
         $ipAddress = '127.0.0.1';
         $prefix = $this->throttler->getPrefix();

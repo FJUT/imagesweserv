@@ -16,7 +16,7 @@ class RateExceededExceptionTest extends ImagesweservTestCase
      *
      * @expectedException \AndriesLouw\imagesweserv\Exception\RateExceededException
      */
-    public function testThrowException()
+    public function testThrowException(): void
     {
         throw new RateExceededException();
     }
@@ -25,7 +25,7 @@ class RateExceededExceptionTest extends ImagesweservTestCase
      * @expectedException        \AndriesLouw\imagesweserv\Exception\RateExceededException
      * @expectedExceptionMessage There are an unusual number of requests coming from this IP address.
      */
-    public function testRateExceededException()
+    public function testRateExceededException(): void
     {
         $client = $this->getMockery(Client::class);
         $api = new Api($client, $this->getManipulators());

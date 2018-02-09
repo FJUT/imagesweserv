@@ -2,7 +2,7 @@
 /**
  * Source code of images.weserv.nl, to be used on your own server(s).
  *
- * PHP version 7
+ * PHP version 7.1+
  *
  * @category  Images
  * @package   Imagesweserv

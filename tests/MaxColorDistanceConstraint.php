@@ -6,6 +6,7 @@ use Jcupitt\Vips\Access;
 use Jcupitt\Vips\Image;
 use PHPUnit\Framework\Constraint\Constraint;
 use SebastianBergmann\Diff\Differ;
+use SebastianBergmann\Diff\Output\UnifiedDiffOutputBuilder;
 
 /**
  * Verify the maximum color distance
@@ -20,7 +21,7 @@ class MaxColorDistanceConstraint extends Constraint
 
     /**
      * Expected maximum color distance. Defaulting to 1.
-     * @var int $acceptedDistance
+     * @var float $acceptedDistance
      */
     protected $acceptedDistance;
 
@@ -33,7 +34,7 @@ class MaxColorDistanceConstraint extends Constraint
     /**
      * MaxColorDistanceConstraint constructor.
      *
-     * @param $image
+     * @param string|Image $image
      * @param float $acceptedDistance
      *
      * @throws \Jcupitt\Vips\Exception
@@ -94,8 +95,8 @@ class MaxColorDistanceConstraint extends Constraint
      */
     public function additionalFailureDescription($other): string
     {
-        $differ = new Differ("--- Expected maximum color distance\n+++ Actual color distance\n");
-        return $differ->diff($this->acceptedDistance, $this->maxColorDistance);
+        $differ = new Differ(new UnifiedDiffOutputBuilder("--- Expected maximum color distance\n+++ Actual color distance\n"));
+        return $differ->diff((string)$this->acceptedDistance, (string)$this->maxColorDistance);
     }
 
     /**
