@@ -16,30 +16,35 @@ class SimilarImageConstraint extends Constraint
 {
     /**
      * The expected image
+     *
      * @var Image $expectedImage
      */
     protected $expectedImage;
 
     /**
      * Distance threshold. Defaulting to 5 (~7% threshold)
+     *
      * @var int $threshold
      */
     protected $threshold;
 
     /**
      * dHash distance.
+     *
      * @var int $distance
      */
     protected $distance;
 
     /**
      * Expected hash
+     *
      * @var string $expectedHash
      */
     protected $expectedHash;
 
     /**
      * Actual hash
+     *
      * @var string $actualHash
      */
     protected $actualHash;

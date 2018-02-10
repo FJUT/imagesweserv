@@ -15,18 +15,21 @@ class MaxColorDistanceConstraint extends Constraint
 {
     /**
      * The expected image
+     *
      * @var Image $expectedImage
      */
     protected $expectedImage;
 
     /**
      * Expected maximum color distance. Defaulting to 1.
+     *
      * @var float $acceptedDistance
      */
     protected $acceptedDistance;
 
     /**
      * The maximum color distance
+     *
      * @var float $maxColorDistance
      */
     protected $maxColorDistance;
@@ -95,7 +98,9 @@ class MaxColorDistanceConstraint extends Constraint
      */
     public function additionalFailureDescription($other): string
     {
-        $differ = new Differ(new UnifiedDiffOutputBuilder("--- Expected maximum color distance\n+++ Actual color distance\n"));
+        $differ = new Differ(
+            new UnifiedDiffOutputBuilder("--- Expected maximum color distance\n+++ Actual color distance\n")
+        );
         return $differ->diff((string)$this->acceptedDistance, (string)$this->maxColorDistance);
     }
 
