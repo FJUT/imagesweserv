@@ -218,7 +218,7 @@ class Shape extends BaseManipulator
     }
 
     /**
-     * Inspired by this JSFiddle: http://jsfiddle.net/tohan/8vwjn4cx/
+     * Inspired by this JSFiddle: https://jsfiddle.net/tohan/8vwjn4cx/
      * modified to support SVG paths
      *
      * @param float $midX midX

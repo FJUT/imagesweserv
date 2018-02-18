@@ -8,7 +8,7 @@
  * @package   Imagesweserv
  * @author    Andries Louw Wolthuizen <info@andrieslouw.nl>
  * @author    Kleis Auke Wolthuizen   <info@kleisauke.nl>
- * @license   http://opensource.org/licenses/bsd-license.php New BSD License
+ * @license   https://opensource.org/licenses/bsd-license.php New BSD License
  * @link      images.weserv.nl
  * @copyright 2018
  */

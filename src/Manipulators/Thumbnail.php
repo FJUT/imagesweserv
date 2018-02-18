@@ -45,7 +45,7 @@ class Thumbnail extends BaseManipulator
         // https://packages.debian.org/sid/all/icc-profiles-free/filelist
         Interpretation::SRGB => __DIR__ . '/../ICC/sRGB.icm',
         // Convert to sRGB using default CMYK profile from:
-        // http://www.argyllcms.com/cmyk.icm
+        // https://www.argyllcms.com/cmyk.icm
         Interpretation::CMYK => __DIR__ . '/../ICC/cmyk.icm'
     ];
 

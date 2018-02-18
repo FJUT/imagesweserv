@@ -87,7 +87,7 @@ class Contrast extends BaseManipulator
         /**
          * The sigmoidal equation, see
          *
-         * http://www.imagemagick.org/Usage/color_mods/#sigmoidal
+         * https://www.imagemagick.org/Usage/color_mods/#sigmoidal
          *
          * and
          *

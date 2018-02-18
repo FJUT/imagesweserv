@@ -1,11 +1,11 @@
-# Change Log
+# Changelog
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.0.0] - Unreleased
 
-Requires libvips 8.7.0+ and PHP 7.1+.
+Requires libvips 8.7+ and PHP 7.1+.
 
 ### Note
 With the feedback that you've provided we can successfully close the following issues/enhancements: 
@@ -92,7 +92,7 @@ This version was never used in production, it's only used for testing purposes a
 
 ### Added
 - Add CHANGELOG.md based on [’Keep a CHANGELOG’](https://github.com/olivierlacan/keep-a-changelog).
-- Composer ready and [PSR-2](http://www.php-fig.org/psr/psr-2/) compliant.
+- Composer ready and [PSR-2](https://www.php-fig.org/psr/psr-2/) compliant.
 - Used the [Intervention Image](http://image.intervention.io/) library for image handling and manipulation.
 - Used the [Guzzle](https://github.com/guzzle/guzzle) library for sending HTTP requests.
 
@@ -101,7 +101,7 @@ This version was never used in production, it's only used for testing purposes a
 The start of our image proxy. See for more details [here](https://github.com/andrieslouw/imagesweserv/wiki/About-this-service-and-why-it-is-free).
 
 ### Added / Changed / Fixed
-We never kept a change log from 2007 till 2015.
+We never kept a changelog from 2007 till 2015.
 For a quick overview what we've added, changed or fixed in the past see our [completed label](https://github.com/andrieslouw/imagesweserv/issues?utf8=%E2%9C%93&q=label%3Acompleted%20no%3Amilestone) on our issue tracker. Or take a look at our [1.x branch](https://github.com/andrieslouw/imagesweserv/tree/1.x).
 
 [3.0.0]: https://github.com/andrieslouw/imagesweserv/compare/HEAD...3.x
