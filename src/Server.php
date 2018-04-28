@@ -234,9 +234,7 @@ class Server
         }
 
         // Write an image to a formatted string
-        $buffer = $extension === 'gif' ?
-            $image->magicksave_buffer(['format' => $extension]) :
-            $image->writeToBuffer(".$extension", $this->getBufferOptions($params, $extension));
+        $buffer = $image->writeToBuffer(".$extension", $this->getBufferOptions($params, $extension));
 
         return [$buffer, $extension];
     }
@@ -458,6 +456,11 @@ class Server
             $toBufferOptions['Q'] = $this->getQuality($params, $extension);
             // Set the tiff compression
             $toBufferOptions['compression'] = 'jpeg';
+        }
+
+        if ($extension === 'gif') {
+            // Set the format option to hint the file type.
+            $toBufferOptions['format'] = $extension;
         }
 
         return $toBufferOptions;

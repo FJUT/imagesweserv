@@ -109,7 +109,7 @@ $error_messages = [
  * @param string $url
  *
  * @throws InvalidArgumentException if the URI is invalid
- * @throws League\Uri\Schemes\UriException if the URI is in an invalid state according to RFC3986
+ * @throws League\Uri\UriException if the URI is in an invalid state according to RFC3986
  *
  * @return HttpUri parsed URI
  */
